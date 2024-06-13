@@ -6,6 +6,6 @@
         'views/library_management_book_views.xml',  # Fichiers de définition des vues
     ],
     'installable': True,
-    'auto_install': True,
+    'auto_install': False,
     'application': True,
 }

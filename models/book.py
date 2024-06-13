@@ -2,7 +2,7 @@ from odoo import models, fields
 
 
 class Book(models.Model):
-    _name = 'library_management.book'
+    _name = 'book_model'
     _description = 'Book'
 
     name = fields.Char(string='Name', required=True)

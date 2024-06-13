@@ -1,0 +1,11 @@
+<odoo>
+  <record id="id1" model="book">
+    <field name="field_a">value A 11</field>
+    <field name="field_b">value B 11</field>
+  </record>
+
+  <record id="id2" model="tutorial.example">
+    <field name="field_a">value A 22</field>
+    <field name="field_b">value B 22</field>
+  </record>
+</odoo>
