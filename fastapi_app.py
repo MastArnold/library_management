@@ -6,10 +6,7 @@ app = FastAPI()
 
 # Configuration de la connexion Odoo
 odoo = odoorpc.ODOO('localhost', port=8069)
-odoo.login('library_manager', 'karnold@svsburkina.com', 'hoodoo')
-
-if 'book_model' not in odoo.env:
-    raise HTTPException(status_code=500, detail="The model 'book_model' does not exist in the database")
+odoo.login('library', 'akienou@svsburkina.com', 'hoodoo')
 
 
 # Modèle Pydantic pour les livres
@@ -110,3 +107,7 @@ def delete_book(book_id: int):
         return {"message": "Book deleted successfully"}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)

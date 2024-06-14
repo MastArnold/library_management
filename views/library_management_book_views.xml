@@ -3,7 +3,7 @@
         <field name="name">book_model.form</field>
         <field name="model">book_model</field>
         <field name="arch" type="xml">
-            <form string="Library_Book">
+            <form string="New Book">
                 <sheet>
                     <group>
                         <field name="name"/>
@@ -11,6 +11,10 @@
                         <field name="published_date"/>
                         <field name="isbn"/>
                     </group>
+                    <footer>
+                        <button string="Delete" type="object" name="action_delete" class="btn btn-danger"/>
+                        <button string="Save" type="object" name="action_save" class="btn btn-primary"/>
+                    </footer>
                 </sheet>
             </form>
         </field>
@@ -20,7 +24,7 @@
         <field name="name">book_model.tree</field>
         <field name="model">book_model</field>
         <field name="arch" type="xml">
-            <tree string="Library_Books">
+            <tree string="Library">
                 <field name="name"/>
                 <field name="author"/>
                 <field name="published_date"/>
@@ -33,7 +37,7 @@
         <field name="name">book_model.search</field>
         <field name="model">book_model</field>
         <field name="arch" type="xml">
-            <search string="Search Library Book">
+            <search string="Search Book">
                 <field name="name"/>
                 <field name="author"/>
                 <field name="published_date"/>
@@ -42,14 +46,14 @@
         </field>
     </record>
 
-    <menuitem id="menu_library_root" name="Library_Management"/>
+    <menuitem id="menu_library_root" name="Library Management"/>
     <menuitem id="menu_library_book" name="Books" parent="menu_library_root"/>
 
     <record id="action_library_book" model="ir.actions.act_window">
-        <field name="name">Library_Books</field>
+        <field name="name">Library Books</field>
         <field name="res_model">book_model</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_library_book_action" name="Library_Books" parent="menu_library_book" action="action_library_book"/>
+    <menuitem id="menu_library_book_action" name="Library Books" parent="menu_library_book" action="action_library_book"/>
 </odoo>
