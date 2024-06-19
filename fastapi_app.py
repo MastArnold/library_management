@@ -1,6 +1,7 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
 import odoorpc
+from typing import Optional
 
 app = FastAPI()
 
@@ -13,8 +14,8 @@ odoo.login('library', 'akienou@svsburkina.com', 'hoodoo')
 class Book(BaseModel):
     name: str
     author: str
-    published_date: str = None
-    isbn: str = None
+    published_date: str
+    isbn: str
 
 
 #The error message dictionary
@@ -31,7 +32,7 @@ success_dict = {
 
 #This endpoint create a book with the data sent in the request body
 @app.post("/api/books")
-def add_book(book: Book):
+def add_book(book: Book, lan: Optional[str] = Query('eng', description="language")):
     try:
         book_id = odoo.env['book_model'].create({
             'name': book.name,
@@ -39,17 +40,14 @@ def add_book(book: Book):
             'published_date': book.published_date,
             'isbn': book.isbn
         })
-        return {"id": book_id, "message": "Book created successfully"}
+        return {"id": book_id, "message": success_dict[1][lan]}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
 
 #This endpoint return one book according to his id
 @app.get("/api/books/{book_id}")
-def show_book(book_id: int, lan: str | None):
-    if lan is None:
-        lan = "eng"
-
+def show_book(book_id: int, lan: Optional[str] = Query('eng', description="language")):
     try:
         book = odoo.env['book_model'].browse(book_id)
         if not book.exists():
@@ -76,11 +74,11 @@ def show_books():
 
 #This endpoint update one data book according to his id and a book instance in the request body
 @app.put("/api/books/{book_id}")
-def update_book(book_id: int, book: Book):
+def update_book(book_id: int, book: Book, lan: Optional[str] = Query('eng', description="language")):
     try:
         book_record = odoo.env['book_model'].browse(book_id)
         if not book_record.exists():
-            raise HTTPException(status_code=404, detail="Book not found")
+            raise HTTPException(status_code=404, detail=errors_dict[10][lan])
 
         book_record.write({
             'name': book.name,
@@ -96,17 +94,18 @@ def update_book(book_id: int, book: Book):
 
 #This endpoint delete one book according to his id
 @app.delete("/api/books/{book_id}")
-def delete_book(book_id: int):
+def delete_book(book_id: int, lan: Optional[str] = Query('eng', description="language")):
     try:
         book_record = odoo.env['book_model'].browse(book_id)
         if not book_record.exists():
-            raise HTTPException(status_code=404, detail="Book not found")
+            raise HTTPException(status_code=404, detail=errors_dict[10][lan])
 
         book_record.unlink()
 
         return {"message": "Book deleted successfully"}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
 
 if __name__ == "__main__":
     import uvicorn

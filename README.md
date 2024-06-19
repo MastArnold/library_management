@@ -22,3 +22,7 @@ MODULE IMPORT AND ODOO CONFIGURATION
 - Install the module in the odoo graphique interface on [localhost:8069](http:\\localhost:8069)  
   
 - Run the fastapi with the command `uvicorn fastapi_app:app --reload`
+
+API TEST
+---------
+Run the test.fastapi_app.py to test the API
